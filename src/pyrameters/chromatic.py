@@ -55,9 +55,3 @@ def calcular_numero_cromatico(G: nx.Graph) -> int:
     resolver(0, 0)
     
     return best_chi
-
-# --- Ejemplo de uso ---
-#  ejemplo (Petersen tiene χ(G) = 3)
-G = nx.petersen_graph()
-chi = calcular_numero_cromatico(G)
-print(f"El número cromático χ(G) es: {chi}")
