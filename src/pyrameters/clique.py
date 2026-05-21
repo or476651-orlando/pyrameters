@@ -1,48 +1,66 @@
 import networkx as nx
 
-def greedy_color(G_sub):
-    color_class = []
-    for v in G_sub.nodes():
-        h = 0
-        while h < len(color_classes):
-            if not ( set(G_sub.neighbors(v)) & color_classes[h]):
-                break
-            h +=1
-            
-        if h == len(color_classes):
-            color_class.append(set())
-        color_class[h].add(v)
-    return len(color_classes), color_class
-
-def greedy_bound(G, clique, candidates):
-    sub_candidates = G.subgraph(candidates)
-    num_colors = greedy_color(sub_candidates)[0]
-    return len(clique) + num_colors
-
-def maxclique_solver(G):
-    opt_clique = set()
-    opt_size = 0
-
-    def expand(clique, candidate):
-        nonlocal opt_clique, opt_size
-
-        #actualizar mejor solución
-        if len(clique) > opt_size:
-            opt_size = len(clique)
-            opt_clique = clique.copy()
-
-        #Cota superior
-        M = greedy_bound(G, clique, candidates)
-
-        #Pruning
-        if M <= opt_size:
-            return
-
-        while candidates:
-            v = candidates.pop()
-            new_clique = (clique | {v})
-            new_candidates = (candidates & set(G.neighbors(v)))
-            expand(new_clique, new_candidates)
-    expand(clique=set(), candidates = set(G.nodes()))
-    return opt_clique, opt_size
+def maxclique(G: nx.Graph):
+    opt_clique: set = set()
+    opt_size: int = 0
     
+    # El algoritmo asume que los nodos están ordenados/etiquetados numéricamente
+    # Grabamos el conjunto total de vértices V
+    V = set(G.nodes())
+
+    def greedy_color(G_sub: nx.Graph):
+        color_class: list[set[int]] = []
+        k = 0
+        for i in G_sub.nodes():
+            h = 0
+            while h < k and (set(G_sub.neighbors(i)) & color_class[h]):
+                h += 1
+            if h == k:
+                k += 1
+                color_class.append(set())
+            color_class[h] = color_class[h] | {i}
+        return k
+
+    def greedy_bound(clique_actual: list, candidatos_actuales: set):
+        # El libro llama a la función externa B() pasándole el camino actual.
+        # Nuestra cota es: tamaño actual + colores necesarios para el subgrafo de candidatos
+        sub_candidates = G.subgraph(candidatos_actuales)
+        return len(clique_actual) + greedy_color(sub_candidates)
+
+    # l representa el nivel (profundidad de la recursión)
+    # clique_lista es la lista [x_0, x_1, ..., x_{l-1}]
+    # candidatos_C es el conjunto C_l
+    def _maxclique2(l: int, clique_lista: list, candidatos_C: set):
+        nonlocal opt_clique, opt_size
+        
+        # if l > OptSize then OptSize <- l, OptClique <- [x_0, ..., x_{l-1}]
+        if l > opt_size:
+            opt_size = l
+            opt_clique = set(clique_lista)
+            
+        # Al entrar al nivel l, calculamos los candidatos para este nivel (C_l)
+        if l == 0:
+            C_l = V
+        else:
+            # Corresponde a: A_{x_{l-1}} intersectado con B_{x_{l-1}} intersectado con C_{l-1}
+            last_node = clique_lista[-1]
+            A_last = {v for v in V if v > last_node}
+            B_last = set(G.neighbors(last_node))
+            C_l = A_last & B_last & candidatos_C
+
+        # M <- B([x_0, ..., x_{l-1}])
+        M = greedy_bound(clique_lista, C_l)
+        
+        # for each x in C_l do
+        # Para mantener el orden del libro, iteramos de forma ordenada
+        for x in sorted(list(C_l)):
+            # if M <= OptSize then return
+            if M <= opt_size:
+                return
+            
+            # x_l <- x y llamada recursiva para el nivel l + 1
+            _maxclique2(l + 1, clique_lista + [x], C_l)
+            
+    # main: OptSize <- 0, MAXCLIQUE2(0)
+    _maxclique2(0, [], set())
+    return opt_clique, opt_size
