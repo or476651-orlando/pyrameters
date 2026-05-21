@@ -2,22 +2,22 @@
 
 ![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Status](https://img.shields.io/badge/status-Active-success)
+![Status](https://img.shields.io/badge/status-Activo-success)
 
-Hello world! As you have been able to realise (especially, if you are a math major or a computer science major), graphs are one of the most interesting objects in mathematics. They have so many applications in several branches of math (pure and applied) and CS, such as combinatorics, networking, data structures and, curiously, they are useful when painting a map so that no two adjacent provinces are painted with the same color, or when studying how many people know each other in a party.
+¡Hola mundo! Como habrás podido notar (especialmente si estudias matemáticas o ciencias de la computación), las gráficas son uno de los objetos más interesantes en matemáticas. Tienen muchísimas aplicaciones en diversas ramas de las matemáticas (puras y aplicadas) y de las ciencias de la computación, tales como la combinatoria, redes, estructuras de datos y, curiosamente, son útiles al colorear un mapa de modo que dos provincias adyacentes no tengan el mismo color, o al estudiar cuántas personas se conocen entre sí en una fiesta.
 
-We introduce you to the **`pyrameters`** package, a Python package intended to help you calculate the clique number ($\omega(G)$) and the chromatic number ($\chi(G)$) of a graph efficiently.
+[cite_start]Te presentamos el paquete **`pyrameters`**, una herramienta en Python desarrollada en GitHub [cite: 2] [cite_start]y diseñada para ayudarte a calcular el número de clan ($\omega(G)$) y el número cromático ($\chi(G)$) de una gráfica simple $G$ [cite: 9] de manera eficiente.
 
 ---
 
-## 🚀 Instructions
+## 🚀 Instrucciones
 
-### 💻 Installation
+### 💻 Instalación
 
-Since this project uses modern Python packaging with `pyproject.toml`, you can easily install it using `pip` or `poetry`. 
+[cite_start]Dado que este proyecto utiliza empaquetado moderno de Python con `pyproject.toml` [cite: 21][cite_start], puedes instalarlo fácilmente utilizando `pip` [cite: 21] o `poetry`. 
 
-**Option A: Using pip**
-Clone the repository and install it locally:
+**Opción A: Usando pip**
+Clona el repositorio e instálalo de manera local:
 ```bash
 git clone [https://github.com/or476651-orlando/pyrameters.git](https://github.com/or476651-orlando/pyrameters.git)
 cd pyrameters
