@@ -35,72 +35,72 @@ def test_K15():
 def test_C7():
 
     G = nx.cycle_graph(7)
-    clique, omega, g, chi = pyrameters(G)
-    assert es_clique(G, clique)
-    assert omega == 2
-    assert len(clique) == 2
-    assert g == 7
-    assert chi == 3
+    resultado = pyrameters(G)
+    assert es_clique(G, resultado["maximum_clique"])
+    assert resultado["clique_number"] == 2
+    assert len(resultado["maximum_clique"]) == 2
+    assert resultado["girth"] == 7
+    assert resultado["chromatic_number"] == 3
 
 def test_C20():
 
     G = nx.cycle_graph(20)
-    clique, omega, g, chi = pyrameters(G)
-    assert es_clique(G, clique)
-    assert omega == 2
-    assert len(clique) == 2
-    assert g == 20
-    assert chi == 2
+    resultado = pyrameters(G)
+    assert es_clique(G, resultado["maximum_clique"])
+    assert resultado["clique_number"] == 2
+    assert len(resultado["maximum_clique"]) == 2
+    assert resultado["girth"] == 20
+    assert resultado["chromatic_number"] == 2
 
 def test_empty():
 
     G = nx.empty_graph(10)
-    clique, omega, g, chi = pyrameters(G)
-    assert es_clique(G, clique)
-    assert omega == 1
-    assert len(clique) == 1
-    assert g == None
-    assert chi == 1
+    resultado = pyrameters(G)
+    assert es_clique(G, resultado["maximum_clique"])
+    assert resultado["clique_number"] == 1
+    assert len(resultado["maximum_clique"]) == 1
+    assert resultado["girth"] == None
+    assert resultado["chromatic_number"] == 1
 
 def test_petersen():
 
     G = nx.petersen_graph()
-    clique, omega, g, chi = pyrameters(G)
-    assert es_clique(G, clique)
-    assert omega == 2
-    assert len(clique) == 2
-    assert g == 5
-    assert chi == 3
+    resultado = pyrameters(G)
+    assert es_clique(G, resultado["maximum_clique"])
+    assert resultado["clique_number"] == 2
+    assert len(resultado["maximum_clique"]) == 2
+    assert resultado["girth"] == 5
+    assert resultado["chromatic_number"] == 3
 
 def test_complete_bipartite():
 
     G = nx.complete_bipartite_graph(5,10)
-    clique, omega, g, chi = pyrameters(G)
-    assert es_clique(G, clique)
-    assert omega == 2
-    assert len(clique) == 2
-    assert g == 4
-    assert chi == 2
+    resultado = pyrameters(G)
+    assert es_clique(G, resultado["maximum_clique"])
+    assert resultado["clique_number"] == 2
+    assert len(resultado["maximum_clique"]) == 2
+    assert resultado["girth"] == 4
+    assert resultado["chromatic_number"] == 2
 
 def test_heawood():
 
     G = nx.heawood_graph()
-    clique, omega, g, chi = pyrameters(G)
-    assert es_clique(G, clique)
-    assert omega == 2
-    assert len(clique) == 2
-    assert g == 6
-    assert chi == 2
+    resultado = pyrameters(G)
+    assert es_clique(G, resultado["maximum_clique"])
+    assert resultado["clique_number"] == 2
+    assert len(resultado["maximum_clique"]) == 2
+    assert resultado["girth"] == 6
+    assert resultado["chromatic_number"] == 2
 
 def test_tutte():
 
     G = nx.tutte_graph()
-    clique, omega, g, chi = pyrameters(G)
-    assert es_clique(G, clique)
-    assert omega == 2
-    assert len(clique) == 2
-    assert g == 4
-    assert chi == 3
+    resultado = pyrameters(G)
+    assert es_clique(G, resultado["maximum_clique"])
+    assert resultado["clique_number"] == 2
+    assert len(resultado["maximum_clique"]) == 2
+    assert resultado["girth"] == 4
+    assert resultado["chromatic_number"] == 3
 
 def test_disconnected():
 
@@ -108,34 +108,34 @@ def test_disconnected():
     nx.complete_graph(4),
     nx.path_graph(10)
     )
-    clique, omega, g, chi = pyrameters(G)
-    assert es_clique(G, clique)
-    assert omega == 4
-    assert len(clique) == 4
-    assert g == 3
-    assert chi == 4
+    resultado = pyrameters(G)
+    assert es_clique(G, resultado["maximum_clique"])
+    assert resultado["clique_number"] == 4
+    assert len(resultado["maximum_clique"]) == 4
+    assert resultado["girth"] == 3
+    assert resultado["chromatic_number"] == 4
 
 
 def test_wheel():
 
     G = nx.wheel_graph(8)
-    clique, omega, g, chi = pyrameters(G)
-    assert es_clique(G, clique)
-    assert omega == 3
-    assert len(clique) == 3
-    assert g == 3
-    assert chi == 4
+    resultado = pyrameters(G)
+    assert es_clique(G, resultado["maximum_clique"])
+    assert resultado["clique_number"] == 3
+    assert len(resultado["maximum_clique"]) == 3
+    assert resultado["girth"] == 3
+    assert resultado["chromatic_number"] == 4
 
 
 def test_path():
 
     G = nx.path_graph(20)
-    clique, omega, g, chi = pyrameters(G)
-    assert es_clique(G, clique)
-    assert omega == 2
-    assert len(clique) == 2
-    assert g == None
-    assert chi == 2
+    resultado = pyrameters(G)
+    assert es_clique(G, resultado["maximum_clique"])
+    assert resultado["clique_number"] == 2
+    assert len(resultado["maximum_clique"]) == 2
+    assert resultado["girth"] == None
+    assert resultado["chromatic_number"] == 2
 
 
 
