@@ -24,7 +24,7 @@ def greedy_color(G_sub: nx.Graph, N: dict):
     k = 0
     for v in G_sub.nodes():
         h = 0
-        while( h<k and (N[v] & color_classes[h])):
+        while ( h < k and (N[v] & color_classes[h])):
             h += 1
         if h == k:
             k += 1
@@ -45,7 +45,7 @@ def maxclique(G: nx.Graph):
     opt_clique = set()
     opt_size = 0
     V = set(G.nodes())
-    N = {v: set(G.neighbors(v)) for v in v}
+    N = {v: set(G.neighbors(v)) for v in V}
 
     def expand(level, clique, candidates):
         nonlocal opt_clique
@@ -74,7 +74,7 @@ def maxclique(G: nx.Graph):
             expand(level+1, clique + [x], new_candidates)
 
     expand(0, [],set())
-    return (opt_clique,opt_size)
+    return opt_size
     
 
             
@@ -94,7 +94,7 @@ def calcular_numero_cromatico(G: nx.Graph) -> int:
     nodos = sorted(G.nodes(), key=lambda x: G.degree(x), reverse=True)
     
     # Límite superior trivial: colorear cada nodo con un color distinto
-    best_chi = n 
+    best_chi = greedy_color
     asignacion_colores = {}
 
     def es_seguro(nodo, color, asignacion):
