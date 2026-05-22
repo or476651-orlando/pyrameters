@@ -6,7 +6,7 @@
 
 ¡Hola mundo! Como habrás podido notar (especialmente si estudias matemáticas o ciencias de la computación), las gráficas son uno de los objetos más interesantes en matemáticas. Tienen muchísimas aplicaciones en diversas ramas de las matemáticas (puras y aplicadas) y de las ciencias de la computación, tales como la combinatoria, redes, estructuras de datos y, curiosamente, son útiles al colorear un mapa de modo que dos provincias adyacentes no tengan el mismo color, o al estudiar cuántas personas se conocen entre sí en una fiesta.
 
-[cite_start]Te presentamos el paquete **`pyrameters`**, una herramienta en Python desarrollada en GitHub [cite: 2] [cite_start]y diseñada para ayudarte a calcular el número de clan ($\omega(G)$) y el número cromático ($\chi(G)$) de una gráfica simple $G$ [cite: 9] de manera eficiente.
+[cite_start]Te presentamos el paquete **`pyrameters`**, una herramienta en Python desarrollada en GitHub [cite: 2] [cite_start]y diseñada para ayudarte a calcular el número de clan ($\omega(G)$), el número cromático ($\chi(G)$) y el cuello de una gráfica simple $G$ [cite: 9] de manera eficiente.
 
 ---
 
