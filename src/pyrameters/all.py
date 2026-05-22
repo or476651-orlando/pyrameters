@@ -143,8 +143,11 @@ def numero_cromatico(G: nx.Graph):
 #######################
 #CUELLO O GIRTH
 #######################
-def girth(graph: nx.Graph):
-
+def cuello(graph: nx.Graph, clique: int):
+    #Detección de Triangulos
+    if clique >= 3:
+        return 3
+    
     G = clean(graph)
 
     shortest = inf
@@ -167,7 +170,7 @@ def girth(graph: nx.Graph):
 
             for v in G.neighbors(u):
 
-                # New vertex
+                #Nuevo vertice
                 if v not in dist:
 
                     dist[v] = dist[u] + 1
@@ -175,7 +178,7 @@ def girth(graph: nx.Graph):
 
                     queue.append(v)
 
-                # Found cycle
+                # Ciclo encontrado
                 elif parent[u] != v:
 
                     cycle_length = (
