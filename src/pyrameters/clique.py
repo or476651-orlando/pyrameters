@@ -43,23 +43,13 @@ def maxclique(G: nx.Graph):
             C_l = V
         else:
             # Corresponde a: A_{x_{l-1}} intersectado con B_{x_{l-1}} intersectado con C_{l-1}
-            last_node = clique_lista[-1]
-            A_last = {v for v in V if v > last_node}
-            B_last = set(G.neighbors(last_node))
-            C_l = A_last & B_last & candidatos_C
+            C_l = candidatos_C
 
         # M <- B([x_0, ..., x_{l-1}])
         M = greedy_bound(clique_lista, C_l)
         if M <= opt_size:
             return
-        
-        # for each x in C_l do
-        # Para mantener el orden del libro, iteramos de forma ordenada
-        for x in sorted(list(C_l)):
-
-            if M <= opt_size:
-                return
-            
+        for x in sorted(C_l):
             # x_l <- x y llamada recursiva para el nivel l + 1
             new_candidates = (C_l & set(G.neighbors(x)) & {v for v in V if v > x})
             _maxclique2(l+1, clique_lista + [x], new_candidates)
