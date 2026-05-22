@@ -45,6 +45,10 @@ def maxclique(G: nx.Graph):
             # Corresponde a: A_{x_{l-1}} intersectado con B_{x_{l-1}} intersectado con C_{l-1}
             C_l = candidatos_C
 
+        #Poda simple
+        if len(clique_lista)+len(C_l) <= opt_size:
+            return
+
         # M <- B([x_0, ..., x_{l-1}])
         M = greedy_bound(clique_lista, C_l)
         if M <= opt_size:
