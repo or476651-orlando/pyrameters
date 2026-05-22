@@ -1,4 +1,24 @@
+from collections import deque
+from math import inf
 import networkx as nx
+
+#############################
+#FUNCIONES AUXILIARES
+#############################
+
+#Eliminar los vertices con grado 1, hasta que no haya ninguno
+def clean(graph: nx.Graph, min_degree: int = 2):
+    G = graph.copy()
+    changed = True
+    while changed:
+        changed = False
+        to_remove = [v in G.nodes() if G.degree(v) < min_degree]
+        if to_remove:
+            changed = True
+            G.remove_nodes_from(to_remove)
+    return G
+            
+
 
 def calcular_numero_cromatico(G: nx.Graph) -> int:
     """
