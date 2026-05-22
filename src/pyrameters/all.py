@@ -83,7 +83,7 @@ def maxclique(G: nx.Graph):
 ##########################            
 #NÚMERO CROMÁTICO
 ##########################
-def numero_cromatico(G: nx.Graph, lower_bound: int = 1):
+def numero_cromatico(G: nx.Graph, lower_bound: int):
     """
     Calcula el número cromático (χ(G)) de una gráfica simple usando 
     backtracking con ruptura de simetría y branch & bound.
