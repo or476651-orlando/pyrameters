@@ -14,6 +14,8 @@ Te presentamos **pyrameters**, una biblioteca escrita en Python para calcular al
 
 El proyecto está desarrollado utilizando **NetworkX** y algoritmos de búsqueda con poda (*branch and bound*), coloración glotona (*greedy coloring*) y búsqueda en anchura (*BFS*). Este proyecto calcula los parámetros anteriomente mencionados para gráficas **simples**, es decir, asumimos que no puede haber más de una arista uniendo dos vértices. También, asumimos que las gráficas no tienen lazos.
 
+**Aclaración importante:** nuevamente, esta paquetería trabaja con la librería **Networkx**, no solo a lo largo del código fuente sino que también los inputs deben ser del tipo nx.Graph.
+
 ---
 
 # 🚀 Instalación
@@ -260,6 +262,24 @@ git push origin nueva-funcionalidad
 Posteriormente abre un Pull Request.
 
 ---
+
+# Testings y ejemplos
+
+El proyecto también incluye unit tests, para que puedas verificar la funcionalidad del paquete usando pytest, poniéndolo a prueba contra gráficas como la de Petersen o la gráfica vacía. También se incluye una libreta de Jupyter, desde la cual podrás acceder a varios ejemplos de uso de la paquetería de una forma más libre e interactiva.
+
+Para hacer testings:
+
+```bash
+!git clone https://github.com/or476651-orlando/pyrameters.git
+%cd pyrameters
+
+!pip install -e .
+!pip install pytest networkx
+
+!pytest -v
+```
+
+Para explorar la libreta de Jupyter:
 
 # 📄 Licencia
 
