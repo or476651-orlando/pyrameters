@@ -17,6 +17,21 @@ def clean(graph: nx.Graph, min_degree: int = 2):
             changed = True
             G.remove_nodes_from(to_remove)
     return G
+
+#Coloración glotona para acotar
+def greedy_color(G_sub: nx.Graph, N: dict):
+    color_classes = []
+    k = 0
+    for v in G_sub.nodes():
+        h = 0
+        while( h<k and (N[v] & color_classes[h])):
+            h += 1
+        if h == k:
+            k += 1
+            color_classes.append(set())
+        color_classes[h].add(v)
+    return k
+
             
 
 
