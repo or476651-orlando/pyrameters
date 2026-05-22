@@ -59,7 +59,8 @@ def maxclique(G: nx.Graph):
                 return
             
             # x_l <- x y llamada recursiva para el nivel l + 1
-            _maxclique2(l + 1, clique_lista + [x], C_l)
+            new_candidates = (C_l & set(G.neighbors(x)) & {v for v in V if v > x})
+            _maxclique2(l+1, clique_lista + [x], new_candidates)
             
     # main: OptSize <- 0, MAXCLIQUE2(0)
     _maxclique2(0, [], set())
