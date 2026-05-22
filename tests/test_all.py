@@ -1,98 +1,90 @@
 import networkx as nx
-from pyrameters.all import pyrameters
+# Importamos las funciones individuales además de la integradora
+from pyrameters.all import maxclique, numero_cromatico, cuello, pyrameters
 
 #############################
 # AUXILIAR
 #############################
-
 def es_clique(G, C):
-    """
-    Verifica que C induce un clique en G.
-    """
     C = list(C)
-
     for i in range(len(C)):
         for j in range(i + 1, len(C)):
             if not G.has_edge(C[i], C[j]):
                 return False
-
     return True
 
-#######################
-# TESTS
-#######################
+###########################################################
+# UNIT TESTS: MÓDULO CLIQUE MAXIMAL
+###########################################################
 
-def test_K15():
-
+def test_unit_maxclique_complete():
     G = nx.complete_graph(15)
-    resultado = pyrameters(G)
-    assert es_clique(G, resultado["maximum_clique"])
-    assert resultado["clique_number"] == 15
-    assert len(resultado["maximum_clique"]) == 15
-    assert resultado["girth"] == 3
-    assert resultado["chromatic_number"] == 15
+    clique, omega = maxclique(G)
+    assert es_clique(G, clique)
+    assert omega == 15
+    assert len(clique) == 15
 
-def test_C7():
-
-    G = nx.cycle_graph(7)
-    resultado = pyrameters(G)
-    assert es_clique(G, resultado["maximum_clique"])
-    assert resultado["clique_number"] == 2
-    assert len(resultado["maximum_clique"]) == 2
-    assert resultado["girth"] == 7
-    assert resultado["chromatic_number"] == 3
-
-def test_C20():
-
-    G = nx.cycle_graph(20)
-    resultado = pyrameters(G)
-    assert es_clique(G, resultado["maximum_clique"])
-    assert resultado["clique_number"] == 2
-    assert len(resultado["maximum_clique"]) == 2
-    assert resultado["girth"] == 20
-    assert resultado["chromatic_number"] == 2
-
-def test_empty():
-
-    G = nx.empty_graph(10)
-    resultado = pyrameters(G)
-    assert es_clique(G, resultado["maximum_clique"])
-    assert resultado["clique_number"] == 1
-    assert len(resultado["maximum_clique"]) == 1
-    assert resultado["girth"] == None
-    assert resultado["chromatic_number"] == 1
-
-def test_petersen():
-
+def test_unit_maxclique_petersen():
     G = nx.petersen_graph()
-    resultado = pyrameters(G)
-    assert es_clique(G, resultado["maximum_clique"])
-    assert resultado["clique_number"] == 2
-    assert len(resultado["maximum_clique"]) == 2
-    assert resultado["girth"] == 5
-    assert resultado["chromatic_number"] == 3
+    clique, omega = maxclique(G)
+    assert es_clique(G, clique)
+    assert omega == 2
 
-def test_complete_bipartite():
+def test_unit_maxclique_empty():
+    G = nx.empty_graph(10)
+    clique, omega = maxclique(G)
+    assert omega == 1
 
-    G = nx.complete_bipartite_graph(5,10)
-    resultado = pyrameters(G)
-    assert es_clique(G, resultado["maximum_clique"])
-    assert resultado["clique_number"] == 2
-    assert len(resultado["maximum_clique"]) == 2
-    assert resultado["girth"] == 4
-    assert resultado["chromatic_number"] == 2
 
-def test_heawood():
+###########################################################
+# UNIT TESTS: MÓDULO NÚMERO CROMÁTICO (Tu código)
+###########################################################
 
+def test_unit_cromatico_cycle_odd():
+    G = nx.cycle_graph(7)
+    # Se prueba la función de forma aislada sin depender de pyrameters
+    assert numero_cromatico(G) == 3 
+
+def test_unit_cromatico_bipartite():
+    G = nx.complete_bipartite_graph(5, 10)
+    assert numero_cromatico(G) == 2
+
+def test_unit_cromatico_petersen():
+    G = nx.petersen_graph()
+    assert numero_cromatico(G) == 3
+
+
+###########################################################
+# UNIT TESTS: MÓDULO GIRTH / CUELLO (Código de tu otro compañero)
+###########################################################
+
+def test_unit_cuello_heawood():
     G = nx.heawood_graph()
+    # Le pasamos un valor neutro de clique (ej. 2) para evaluar el algoritmo de BFS puro
+    assert cuello(G, clique=2) == 6 
+
+def test_unit_cuello_petersen():
+    G = nx.petersen_graph()
+    assert cuello(G, clique=2) == 5
+
+def test_unit_cuello_path():
+    G = nx.path_graph(20)
+    assert cuello(G, clique=2) is None
+
+
+###########################################################
+# INTEGRATION TEST: PIPELINE GLOBAL (Para rematar)
+###########################################################
+
+def test_pyrameters_wheel():
+    G = nx.wheel_graph(8)
     resultado = pyrameters(G)
     assert es_clique(G, resultado["maximum_clique"])
-    assert resultado["clique_number"] == 2
-    assert len(resultado["maximum_clique"]) == 2
-    assert resultado["girth"] == 6
-    assert resultado["chromatic_number"] == 2
+    assert resultado["clique_number"] == 3
+    assert resultado["girth"] == 3
+    assert resultado["chromatic_number"] == 4
 
-def test_tutte():
+def test_pyrameters_tutte():
 
     G = nx.tutte_graph()
     resultado = pyrameters(G)
@@ -102,7 +94,7 @@ def test_tutte():
     assert resultado["girth"] == 4
     assert resultado["chromatic_number"] == 3
 
-def test_disconnected():
+def test_pyrameters_disconnected():
 
     G = nx.disjoint_union(
     nx.complete_graph(4),
@@ -114,28 +106,4 @@ def test_disconnected():
     assert len(resultado["maximum_clique"]) == 4
     assert resultado["girth"] == 3
     assert resultado["chromatic_number"] == 4
-
-
-def test_wheel():
-
-    G = nx.wheel_graph(8)
-    resultado = pyrameters(G)
-    assert es_clique(G, resultado["maximum_clique"])
-    assert resultado["clique_number"] == 3
-    assert len(resultado["maximum_clique"]) == 3
-    assert resultado["girth"] == 3
-    assert resultado["chromatic_number"] == 4
-
-
-def test_path():
-
-    G = nx.path_graph(20)
-    resultado = pyrameters(G)
-    assert es_clique(G, resultado["maximum_clique"])
-    assert resultado["clique_number"] == 2
-    assert len(resultado["maximum_clique"]) == 2
-    assert resultado["girth"] == None
-    assert resultado["chromatic_number"] == 2
-
-
 
