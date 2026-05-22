@@ -22,7 +22,8 @@ def clean(graph: nx.Graph, min_degree: int = 2):
 def greedy_color(G_sub: nx.Graph, N: dict):
     color_classes = []
     k = 0
-    for v in G_sub.nodes():
+    nodes = sorted(G_sub.nodes(), key = lambda v: G_sub.degree(v), reverse = True)
+    for v in nodes:
         h = 0
         while ( h < k and (N[v] & color_classes[h])):
             h += 1
@@ -88,13 +89,15 @@ def calcular_numero_cromatico(G: nx.Graph) -> int:
     n = G.number_of_nodes()
     if n == 0:
         return 0
-        
+
+    N = {v: set(G.neighbors(v)) for v in V}
+    
     # Optimización 3: Ordenar los nodos por grado descendente.
     # Los nodos más conectados son más restrictivos, lo que ayuda a podar rápido.
     nodos = sorted(G.nodes(), key=lambda x: G.degree(x), reverse=True)
     
     # Límite superior trivial: colorear cada nodo con un color distinto
-    best_chi = greedy_color
+    best_chi = greedy_color(G,N)
     asignacion_colores = {}
 
     def es_seguro(nodo, color, asignacion):
