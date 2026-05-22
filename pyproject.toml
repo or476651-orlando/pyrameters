@@ -7,7 +7,9 @@ name = "pyrameters"
 version = "0.1.0"
 description = "Backtracking optimization solvers."
 requires-python = ">=3.8"
-dependencies = []
+dependencies = [
+"networkx>=3.0",
+]
 
 [project.optional-dependencies]
 test = ["pytest"]
