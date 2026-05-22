@@ -54,7 +54,7 @@ def maxclique(G: nx.Graph):
         nonlocal opt_clique
         nonlocal opt_size
         if len(clique) > opt_size:
-            opt_size = level
+            opt_size = len(clique)
             opt_clique = set(clique)
 
         if level == 0:
@@ -93,10 +93,11 @@ def numero_cromatico(G: nx.Graph, lower_bound: int):
         return 0
     V = set(G.nodes())
     N = {v: set(G.neighbors(v)) for v in V}
+    grado = dict(G.degree())
     
     # Optimización 3: Ordenar los nodos por grado descendente.
     # Los nodos más conectados son más restrictivos, lo que ayuda a podar rápido.
-    vertices = sorted(G.nodes(), key=lambda x: G.degree(x), reverse=True)
+    vertices = sorted(G.nodes(), key=lambda x: grado[v], reverse=True)
     
     # Límite superior trivial: colorear cada nodo con un color distinto
     best_chi = greedy_color(G,N)
