@@ -50,11 +50,13 @@ def maxclique(G: nx.Graph):
 
         # M <- B([x_0, ..., x_{l-1}])
         M = greedy_bound(clique_lista, C_l)
+        if M <= opt_size:
+            return
         
         # for each x in C_l do
         # Para mantener el orden del libro, iteramos de forma ordenada
         for x in sorted(list(C_l)):
-            # if M <= OptSize then return
+
             if M <= opt_size:
                 return
             
