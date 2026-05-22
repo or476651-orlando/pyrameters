@@ -32,6 +32,51 @@ def greedy_color(G_sub: nx.Graph, N: dict):
         color_classes[h].add(v)
     return k
 
+#Cota con la coloración glotona
+def greedy_bound(G: nx.Graph, clique_actual: list, candidatos_actuales: set, N: dict):
+    sub_candidates = G.subgraph(candidatos_actuales)
+    return (len(clique_actual)+greedy_color(sub_candidates, N))
+
+
+#############################
+#CLAN MAXIMO
+#############################
+def maxclique(G: nx.Graph):
+    opt_clique = set()
+    opt_size = 0
+    V = set(G.nodes())
+    N = {v: set(G.neighbors(v)) for v in v}
+
+    def expand(level, clique, candidates):
+        nonlocal opt_clique
+        nonlocal opt_size
+        if level > opt_size:
+            opt_size = level
+            opt_clique = set(clique)
+
+        if level == 0:
+            C_l = V
+        else:
+            C_l = candidates
+
+        #Cota simple
+        if (len(clique) + len(C_l) <= opt_size):
+            return
+
+        #Cota de coloración
+        M = greedy_bound(G, clique, C_l, N)
+        if M <= opt_size:
+            return
+
+        #Primero los vertices con mayor grado
+        for x in sorted(C_l, key = lambda v: G.degree(v), reverse=True):
+            new_candidates = (C_l & N[x] & {v for v in C_l if v > x})
+            expand(level+1, clique + [x], new_candidates)
+
+    expand(0, [],set())
+    return (opt_clique,opt_size)
+    
+
             
 
 
