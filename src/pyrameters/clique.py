@@ -59,7 +59,7 @@ def maxclique(G: nx.Graph):
         #Primero los de mayor grado
         for x in sorted(C_l, key=lambda v: G.degree(v), reverse = True):
             # x_l <- x y llamada recursiva para el nivel l + 1
-            new_candidates = (C_l & N[x] & {v for v in V if v > x})
+            new_candidates = (C_l & N[x] & {v for v in C_l if v > x})
             _maxclique2(l+1, clique_lista + [x], new_candidates)
             
     # main: OptSize <- 0, MAXCLIQUE2(0)
