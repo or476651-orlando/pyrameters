@@ -1,17 +1,245 @@
-\documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+\documentclass[12pt]{article}
 
-\title{Pyrameters}
-\author{Ortega Zempoaltecatlc Orlando \\ Parra Pérez Jared Israel \\ Cobos Vera Cristo Tristan}
-\date{May 2026}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{Cálculo de Parámetros Fundamentales de una Gráfica mediante Backtracking y Búsqueda en Anchura}
+\author{
+Ortega Zempoaltecatlc Orlando \\
+Parra Pérez Jared Israel \\
+Cobos Vera Cristo Tristan
+}
+\date{\today}
 
 \begin{document}
 
 \maketitle
 
-\section{Introduction}
-Our first definition is the most importan.\\
+\section{Resumen}
 
-\textbf{Definition 1}. A \textbf{graph} is a pair $(V,E)$ where $V$ is a finite set and $E \subseteq P(V)$ whose elements are of the form $\{a,b\}$, with $a,b \in V$. The elements of $V$ are called \textbf{vertices}, and the elements of $E$ are called \textbf{edges}. 
+En este documento presentamos el desarrollo de \texttt{pyrameters}, una biblioteca
+implementada en Python para el cálculo de tres parámetros clásicos de teoría de gráficas:
+el número de clan $\omega(G)$, el número cromático $\chi(G)$ y el cuello o \emph{girth}
+$g(G)$.
+
+Para ello se implementan algoritmos basados en técnicas de \emph{backtracking},
+\emph{branch and bound}, coloración glotona y búsqueda en anchura (BFS). Además,
+se aprovechan relaciones matemáticas entre los parámetros para reducir el espacio
+de búsqueda y mejorar los tiempos de ejecución.
+
+\section{Introducción}
+
+La teoría de gráficas constituye una de las áreas más importantes de la matemática
+discreta y las ciencias de la computación. Sus aplicaciones abarcan problemas de
+optimización, diseño de redes, planificación, inteligencia artificial y análisis de
+estructuras combinatorias.
+
+Entre los parámetros más relevantes de una gráfica simple se encuentran:
+
+\begin{itemize}
+    \item El número de clan $\omega(G)$.
+    \item El número cromático $\chi(G)$.
+    \item El cuello o girth $g(G)$.
+\end{itemize}
+
+El objetivo de este proyecto consiste en implementar algoritmos capaces de calcular
+estos parámetros de manera exacta, incorporando técnicas de poda para disminuir
+la complejidad práctica de los algoritmos.
+
+\section{Marco Teórico}
+
+\subsection{Número de clan}
+
+Una \emph{clique} es un subconjunto de vértices mutuamente adyacentes.
+
+El número de clan de una gráfica $G$ se define como
+
+\[
+\omega(G)=
+\max\{|K|:K \text{ es una clique de } G\}.
+\]
+
+\subsection{Número cromático}
+
+El número cromático corresponde al mínimo número de colores necesarios para colorear
+los vértices de una gráfica de modo que dos vértices adyacentes reciban colores
+distintos.
+
+Se denota por
+
+\[
+\chi(G).
+\]
+
+\subsection{Cuello o girth}
+
+El cuello de una gráfica es la longitud del ciclo simple más corto contenido en ella.
+
+Se denota por
+
+\[
+g(G).
+\]
+
+\subsection{Relaciones entre parámetros}
+
+Existen relaciones fundamentales que permiten optimizar los algoritmos implementados:
+
+\[
+\omega(G)\leq \chi(G).
+\]
+
+Asimismo, si una gráfica contiene una clique de tamaño tres, entonces necesariamente
+contiene un triángulo y por tanto
+
+\[
+\omega(G)\geq 3
+\Longrightarrow
+g(G)=3.
+\]
+
+Estas propiedades son utilizadas para realizar podas tempranas durante la ejecución.
+
+\section{Descripción de los Algoritmos}
+
+\subsection{Cálculo del número de clan}
+
+Para calcular el número de clan se implementó una variante del algoritmo
+\emph{MAXCLIQUE2}, basada en búsqueda recursiva con poda.
+
+El algoritmo construye cliques de forma incremental manteniendo un conjunto de
+candidatos compatibles con la solución parcial actual.
+
+Las podas utilizadas son:
+
+\begin{enumerate}
+    \item Poda cardinal:
+    \[
+    |X|+|C|\leq \texttt{OptSize}.
+    \]
+
+    \item Poda mediante coloración glotona:
+    \[
+    |X|+\texttt{GreedyColor}(C)\leq \texttt{OptSize}.
+    \]
+\end{enumerate}
+
+\subsection{Cálculo del número cromático}
+
+El número cromático se obtiene mediante backtracking exacto.
+
+Los vértices se procesan en orden descendente de grado para aumentar la efectividad
+de las podas.
+
+Además, el tamaño de la clique máxima calculada previamente se utiliza como cota
+inferior inicial debido a que
+
+\[
+\omega(G)\leq\chi(G).
+\]
+
+Esto reduce significativamente el número de configuraciones exploradas.
+
+\subsection{Cálculo del cuello}
+
+Para calcular el cuello se realiza una búsqueda BFS desde cada vértice.
+
+Antes de iniciar la exploración se eliminan iterativamente todos los vértices con
+grado menor que dos, ya que dichos vértices no pueden pertenecer a ningún ciclo.
+
+Posteriormente se detectan ciclos mediante el árbol BFS y se conserva únicamente
+la longitud mínima encontrada.
+
+Finalmente, si el número de clan satisface
+
+\[
+\omega(G)\geq 3,
+\]
+
+el algoritmo concluye inmediatamente que
+
+\[
+g(G)=3,
+\]
+
+evitando la ejecución completa del BFS.
+
+\section{Metodología Experimental}
+
+Con el objetivo de validar la implementación se realizaron pruebas utilizando
+gráficas clásicas de la literatura.
+
+Entre ellas:
+
+\begin{itemize}
+    \item Ciclos $C_n$.
+    \item Gráficas completas $K_n$.
+    \item Gráfica de Petersen.
+    \item Gráfica de Heawood.
+    \item Gráfica de Tutte.
+\end{itemize}
+
+Para cada caso se verificó la coincidencia entre los resultados obtenidos y los
+valores teóricos reportados en la literatura.
+
+\section{Resultados}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cccc}
+\toprule
+Gráfica & $\omega(G)$ & $\chi(G)$ & $g(G)$ \\
+\midrule
+$K_5$ & 5 & 5 & 3 \\
+$C_7$ & 2 & 3 & 7 \\
+Petersen & 2 & 3 & 5 \\
+Heawood & 2 & 2 & 6 \\
+Tutte & 2 & 3 & 4 \\
+\bottomrule
+\end{tabular}
+\caption{Parámetros obtenidos para distintas gráficas de prueba.}
+\end{table}
+
+Los resultados obtenidos coinciden con los valores conocidos para cada una de las
+gráficas analizadas, validando la correcta implementación de los algoritmos.
+
+\section{Conclusiones}
+
+La implementación desarrollada permite calcular de manera exacta tres parámetros
+fundamentales de teoría de gráficas: el número de clan, el número cromático y el
+cuello.
+
+El uso de técnicas de poda basadas en propiedades matemáticas reduce de manera
+considerable el espacio de búsqueda respecto a una exploración exhaustiva.
+
+Además, la reutilización de información entre algoritmos ---particularmente el uso
+del número de clan como cota inferior para el número cromático y como criterio de
+detección inmediata de triángulos para el cuello--- demuestra la utilidad de integrar
+conocimiento teórico dentro del diseño algorítmico.
+
+\begin{thebibliography}{9}
+
+\bibitem{west}
+West, D. B.
+\textit{Introduction to Graph Theory}.
+Prentice Hall, 2001.
+
+\bibitem{bondy}
+Bondy, J. A. y Murty, U. S. R.
+\textit{Graph Theory}.
+Springer, 2008.
+
+\bibitem{kreher}
+Kreher, D. L. y Stinson, D. R.
+\textit{Combinatorial Algorithms:
+Generation, Enumeration and Search}.
+CRC Press, 1999.
+
+\end{thebibliography}
 
 \end{document}
