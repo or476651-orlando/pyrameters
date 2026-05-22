@@ -37,7 +37,7 @@ def test_unit_maxclique_empty():
 
 
 ###########################################################
-# UNIT TESTS: MÓDULO NÚMERO CROMÁTICO (Tu código)
+# UNIT TESTS: MÓDULO NÚMERO CROMÁTICO
 ###########################################################
 
 def test_unit_cromatico_cycle_odd():
@@ -55,7 +55,7 @@ def test_unit_cromatico_petersen():
 
 
 ###########################################################
-# UNIT TESTS: MÓDULO GIRTH / CUELLO (Código de tu otro compañero)
+# UNIT TESTS: MÓDULO GIRTH / CUELLO
 ###########################################################
 
 def test_unit_cuello_heawood():
@@ -73,7 +73,7 @@ def test_unit_cuello_path():
 
 
 ###########################################################
-# TEST DE FUNCION PYRAMETERS
+# TEST GLOBAL PYRAMETERS
 ###########################################################
 
 def test_pyrameters_wheel():
