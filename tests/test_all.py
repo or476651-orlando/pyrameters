@@ -43,15 +43,15 @@ def test_unit_maxclique_empty():
 def test_unit_cromatico_cycle_odd():
     G = nx.cycle_graph(7)
     # Se prueba la función de forma aislada sin depender de pyrameters
-    assert numero_cromatico(G) == 3 
+    assert numero_cromatico(G, lower_bound = 2) == 3 
 
 def test_unit_cromatico_bipartite():
     G = nx.complete_bipartite_graph(5, 10)
-    assert numero_cromatico(G) == 2
+    assert numero_cromatico(G, lower_bound = 2) == 2
 
 def test_unit_cromatico_petersen():
     G = nx.petersen_graph()
-    assert numero_cromatico(G) == 3
+    assert numero_cromatico(G, lower_bound = 2) == 3
 
 
 ###########################################################
@@ -73,7 +73,7 @@ def test_unit_cuello_path():
 
 
 ###########################################################
-# INTEGRATION TEST: PIPELINE GLOBAL (Para rematar)
+# TEST DE FUNCION PYRAMETERS
 ###########################################################
 
 def test_pyrameters_wheel():
