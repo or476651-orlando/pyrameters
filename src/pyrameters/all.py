@@ -97,7 +97,7 @@ def numero_cromatico(G: nx.Graph, lower_bound: int):
     
     # Optimización 3: Ordenar los nodos por grado descendente.
     # Los nodos más conectados son más restrictivos, lo que ayuda a podar rápido.
-    vertices = sorted(G.nodes(), key=lambda x: grado[v], reverse=True)
+    vertices = sorted(G.nodes(), key=lambda v: grado[v], reverse=True)
     
     # Límite superior trivial: colorear cada nodo con un color distinto
     best_chi = greedy_color(G,N)
