@@ -81,7 +81,10 @@ Salida esperada:
 
 El **número de clan** (también llamado número de clique) es el tamaño de la clique máxima de una gráfica:
 
-$$ \omega(G) = \max\{|K| : K \text{ es una clique de } G\} $$
+$$ 
+\omega(G) = 
+\max \{|K| : K \text{ es una clique de } G \} 
+$$
 
 Ejemplo:
 
