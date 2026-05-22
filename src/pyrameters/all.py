@@ -82,7 +82,7 @@ def maxclique(G: nx.Graph):
 ##########################            
 #NÚMERO CROMÁTICO
 ##########################
-def numero_cromatico(G: nx.Graph, lower_bound = int):
+def numero_cromatico(G: nx.Graph, lower_bound: int = 1):
     """
     Calcula el número cromático (χ(G)) de una gráfica simple usando 
     backtracking con ruptura de simetría y branch & bound.
@@ -90,7 +90,7 @@ def numero_cromatico(G: nx.Graph, lower_bound = int):
     n = G.number_of_nodes()
     if n == 0:
         return 0
-
+    V = set(G.nodes())
     N = {v: set(G.neighbors(v)) for v in V}
     
     # Optimización 3: Ordenar los nodos por grado descendente.
@@ -107,7 +107,7 @@ def numero_cromatico(G: nx.Graph, lower_bound = int):
     def es_seguro(vertice, color):
         """Verifica que ningún vecino tenga el mismo color."""
         for vecino in G.neighbors(vertice):
-            if vecino in asignacion and asignacion[vecino] == color:
+            if (vecino in asignacion and asignacion[vecino] == color):
                 return False
         return True
 
@@ -138,7 +138,7 @@ def numero_cromatico(G: nx.Graph, lower_bound = int):
                 del asignacion_colores[vertice]
 
     # Iniciar la recursión desde el primer nodo, usando 0 colores inicialmente
-    resolver(0, 0)
+    resolver(0, lower_bound - 1)
     
     return best_chi
 
@@ -207,6 +207,6 @@ def cuello(graph: nx.Graph, clique: int):
 #######################
 def pyrameters(G: nx.Graph):
     clique, omega = maxclique(G)
-    chi = chromatic_number(G, lower_bound = omega)
+    chi = numero_cromatico(G, lower_bound = omega)
     g = cuello(G, clique_number=omega)
     return { "maximum_clique": clique, "clique_number": omega, "girth": g, "chromatic_number": chi}
