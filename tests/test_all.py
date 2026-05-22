@@ -25,12 +25,12 @@ def es_clique(G, C):
 def test_K15():
 
     G = nx.complete_graph(15)
-    clique, omega, g, chi = pyrameters(G)
-    assert es_clique(G, clique)
-    assert omega == 15
-    assert len(clique) == 15
-    assert g == 3
-    assert chi == 15
+    resultado = pyrameters(G)
+    assert es_clique(G, resultado["maximum_clique"])
+    assert resultado["clique_number"] == 15
+    assert len(resultado["maximum_clique"]) == 15
+    assert resultado["girth"] == 3
+    assert resultado["chromatic_number"] == 15
 
 def test_C7():
 
