@@ -76,13 +76,13 @@ def maxclique(G: nx.Graph):
             expand(level+1, clique + [x], new_candidates)
 
     expand(0, [],set())
-    return opt_size
+    return opt_clique, opt_size
     
 
 ##########################            
 #NÚMERO CROMÁTICO
 ##########################
-def numero_cromatico(G: nx.Graph):
+def numero_cromatico(G: nx.Graph, lower_bound = int):
     """
     Calcula el número cromático (χ(G)) de una gráfica simple usando 
     backtracking con ruptura de simetría y branch & bound.
@@ -100,7 +100,10 @@ def numero_cromatico(G: nx.Graph):
     # Límite superior trivial: colorear cada nodo con un color distinto
     best_chi = greedy_color(G,N)
     asignacion_colores = {}
-
+    
+    if best_chi == lower_bound:
+        return best_chi
+        
     def es_seguro(vertice, color):
         """Verifica que ningún vecino tenga el mismo color."""
         for vecino in G.neighbors(vertice):
