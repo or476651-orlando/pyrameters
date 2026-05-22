@@ -48,11 +48,12 @@ def maxclique(G: nx.Graph):
     V = set(G.nodes())
     N = {v: set(G.neighbors(v)) for v in V}
     order = {v:i for i,v in enumerate(sorted(G.nodes()))}
+    grado = dict(G.degree())
     
     def expand(level, clique, candidates):
         nonlocal opt_clique
         nonlocal opt_size
-        if level > opt_size:
+        if len(clique) > opt_size:
             opt_size = level
             opt_clique = set(clique)
 
@@ -71,7 +72,7 @@ def maxclique(G: nx.Graph):
             return
 
         #Primero los vertices con mayor grado
-        for x in sorted(C_l, key = lambda v: G.degree(v), reverse=True):
+        for x in sorted(C_l, key = lambda v: grado[v], reverse=True):
             new_candidates = (C_l & N[x] & {v for v in C_l if order[v] > order[x]})
             expand(level+1, clique + [x], new_candidates)
 
@@ -107,7 +108,7 @@ def numero_cromatico(G: nx.Graph, lower_bound: int = 1):
     def es_seguro(vertice, color):
         """Verifica que ningún vecino tenga el mismo color."""
         for vecino in G.neighbors(vertice):
-            if (vecino in asignacion and asignacion[vecino] == color):
+            if (vecino in asignacion_colores and asignacion_colores[vecino] == color):
                 return False
         return True
 
@@ -153,6 +154,8 @@ def cuello(graph: nx.Graph, clique: int):
         return 3
     
     G = clean(graph)
+    if G.number_of_nodes() == 0:
+        return None
 
     shortest = inf
 
@@ -208,5 +211,5 @@ def cuello(graph: nx.Graph, clique: int):
 def pyrameters(G: nx.Graph):
     clique, omega = maxclique(G)
     chi = numero_cromatico(G, lower_bound = omega)
-    g = cuello(G, clique_number=omega)
+    g = cuello(G, omega)
     return { "maximum_clique": clique, "clique_number": omega, "girth": g, "chromatic_number": chi}
