@@ -8,7 +8,7 @@ def calcular_clique(G: nx.Graph):
     # Grabamos el conjunto total de vértices V
     V = set(G.nodes())
 
-    N = {v: set(G.neighbors(v)) for v in v}
+    N = {v: set(G.neighbors(v)) for v in V}
 
     def greedy_color(G_sub: nx.Graph):
         color_class: list[set[int]] = []
