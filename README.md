@@ -268,6 +268,6 @@ Este proyecto se distribuye bajo la licencia MIT.
 ---
 
 # 👨‍💻 Autores
-Parra Pérez Jared Israel
-Ortega Zempoaltecatlc Orlando
-Cobos Vera Cristo Tristán
+Cobos Vera Cristo Tristán  
+Parra Pérez Jared Israel  
+Ortega Zempoaltecatlc Orlando  
