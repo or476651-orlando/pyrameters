@@ -47,7 +47,8 @@ def maxclique(G: nx.Graph):
     opt_size = 0
     V = set(G.nodes())
     N = {v: set(G.neighbors(v)) for v in V}
-
+    order = {v:i for i,v in enumerate(sorted(G.nodes()))}
+    
     def expand(level, clique, candidates):
         nonlocal opt_clique
         nonlocal opt_size
@@ -71,7 +72,7 @@ def maxclique(G: nx.Graph):
 
         #Primero los vertices con mayor grado
         for x in sorted(C_l, key = lambda v: G.degree(v), reverse=True):
-            new_candidates = (C_l & N[x] & {v for v in C_l if v > x})
+            new_candidates = (C_l & N[x] & {v for v in C_l if order[v] > order[x]})
             expand(level+1, clique + [x], new_candidates)
 
     expand(0, [],set())
