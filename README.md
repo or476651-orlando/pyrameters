@@ -52,7 +52,7 @@ pip install git+https://github.com/or476651-orlando/pyrameters.git
 ```python
 import networkx as nx
 
-from pyrameters import pyrameters
+from pyrameters.all import pyrameters
 ```
 
 Crear una gráfica. Aquí se muestra un ejemplo:
