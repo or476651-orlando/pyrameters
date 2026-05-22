@@ -172,3 +172,13 @@ def test_pyrameters_disconnected():
     assert len(resultado["maximum_clique"]) == 4
     assert resultado["girth"] == 3
     assert resultado["chromatic_number"] == 4
+
+def test_pyrameters_fullempty():
+    """Probamos la función global con la gráfica vacía (sin vértices ni aristas)."""
+    G = nx.Graph()
+    resultado = pyrameters(G)
+    assert es_clique(G, resultado["maximum_clique"])
+    assert resultado["clique_number"] == 0
+    assert len(resultado["maximum_clique"]) == 0
+    assert resultado["girth"] == None
+    assert resultado["chromatic_number"] == 0
