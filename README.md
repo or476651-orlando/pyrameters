@@ -12,7 +12,7 @@ Te presentamos **pyrameters**, una biblioteca escrita en Python para calcular al
 - **Número cromático** $\chi(G)$
 - **Cuello o girth** $g(G)$
 
-El proyecto está desarrollado utilizando **NetworkX** y algoritmos de búsqueda con poda (*branch and bound*), coloración glotona (*greedy coloring*) y búsqueda en anchura (*BFS*).
+El proyecto está desarrollado utilizando **NetworkX** y algoritmos de búsqueda con poda (*branch and bound*), coloración glotona (*greedy coloring*) y búsqueda en anchura (*BFS*). Este proyecto calcula los parámetros anteriomente mencionados para gráficas **simples**, es decir, asumimos que no puede haber más de una arista uniendo dos vértices. También, asumimos que las gráficas no tienen lazos.
 
 ---
 
@@ -37,6 +37,13 @@ git clone https://github.com/or476651-orlando/pyrameters.git
 cd pyrameters
 pip install -e .
 ```
+
+## Opción C: usando pip, para trabajar en entornos como Jupyter
+
+Si deseas trabajar con esta librería desde una libreta de Jupyter:
+
+```bash
+pip install git+https://github.com/or476651-orlando/pyrameters.git
 
 ---
 
@@ -159,7 +166,7 @@ $$
 
 ## Clique máxima
 
-Se utiliza una variante de **MAXCLIQUE2** basada en:
+Se utiliza una variante de **MAXCLIQUE2**, inspirado en el Algoritmo 4.19 del libro de Kreher & Stinson, basada en:
 
 - Backtracking
 - Branch and Bound
@@ -261,7 +268,6 @@ Este proyecto se distribuye bajo la licencia MIT.
 ---
 
 # 👨‍💻 Autores
-Parra Jared
-Zempoaltepocatl Orlando
-Cobos Cristo
-pip install .
+Parra Pérez Jared Israel
+Ortega Zempoaltecatlc Orlando
+Cobos Vera Cristo Tristán
