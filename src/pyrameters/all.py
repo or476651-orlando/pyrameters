@@ -81,13 +81,12 @@ def maxclique(G: nx.Graph):
 ##########################            
 #NÚMERO CROMÁTICO
 ##########################
-def calcular_numero_cromatico(G: nx.Graph) -> int:
+def numero_cromatico(G: nx.Graph):
     """
     Calcula el número cromático (χ(G)) de una gráfica simple usando 
     backtracking con ruptura de simetría y branch & bound.
     """
     n = G.number_of_nodes()
-    V = set(G.nodes())
     if n == 0:
         return 0
 
@@ -95,15 +94,15 @@ def calcular_numero_cromatico(G: nx.Graph) -> int:
     
     # Optimización 3: Ordenar los nodos por grado descendente.
     # Los nodos más conectados son más restrictivos, lo que ayuda a podar rápido.
-    nodos = sorted(G.nodes(), key=lambda x: G.degree(x), reverse=True)
+    vertices = sorted(G.nodes(), key=lambda x: G.degree(x), reverse=True)
     
     # Límite superior trivial: colorear cada nodo con un color distinto
     best_chi = greedy_color(G,N)
     asignacion_colores = {}
 
-    def es_seguro(nodo, color, asignacion):
+    def es_seguro(vertice, color):
         """Verifica que ningún vecino tenga el mismo color."""
-        for vecino in G.neighbors(nodo):
+        for vecino in G.neighbors(vertice):
             if vecino in asignacion and asignacion[vecino] == color:
                 return False
         return True
@@ -113,11 +112,10 @@ def calcular_numero_cromatico(G: nx.Graph) -> int:
         
         # Caso base: Todos los nodos han sido coloreados
         if idx == n:
-            if max_color_usado < best_chi:
-                best_chi = max_color_usado
+            best_chi = min(best_chi, max_color_usado)
             return
 
-        nodo = nodos[idx]
+        vertice = vertices[idx]
         
         # Optimizaciones 1 y 2 (Ruptura de Simetría y Branch & Bound):
         # - Límite superior de color a intentar: max_color_usado + 1 (evita permutaciones)
@@ -125,20 +123,21 @@ def calcular_numero_cromatico(G: nx.Graph) -> int:
         limite_color = min(max_color_usado + 1, best_chi - 1)
 
         for c in range(1, limite_color + 1):
-            if es_seguro(nodo, c, asignacion_colores):
+            if es_seguro(vertice, c):
                 # Hacer la elección
-                asignacion_colores[nodo] = c
+                asignacion_colores[vertice] = c
                 
                 # Explorar esa rama, actualizando el máximo color usado en esta ruta
                 resolver(idx + 1, max(max_color_usado, c))
                 
                 # Backtrack (deshacer la elección)
-                del asignacion_colores[nodo]
+                del asignacion_colores[vertice]
 
     # Iniciar la recursión desde el primer nodo, usando 0 colores inicialmente
     resolver(0, 0)
     
     return best_chi
+
 
 
 #######################
