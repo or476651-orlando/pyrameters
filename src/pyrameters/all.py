@@ -209,6 +209,24 @@ def numero_cromatico(G: nx.Graph, lower_bound: int):
 #CUELLO O GIRTH
 #######################
 def cuello(graph: nx.Graph, clique: int):
+    """Calcula el cuello (girth) de una gráfica simple, correspondiente a la 
+    longitud del ciclo más corto presente en ella.
+
+    Implementa un algoritmo de búsqueda en anchura (BFS) desde cada vértice con 
+    poda agresiva de ramas inútiles. Como optimización no trivial, utiliza un 
+    shortcut teórico basado en el tamaño del clan máximo para detectar triángulos 
+    de manera inmediata y limpia la gráfica de nodos con grado menor a 2.
+
+    Args:
+        graph (networkx.Graph): Gráfica de NetworkX a analizar.
+        clique (int): El número de clan (ω(G)) de la gráfica, utilizado como cota 
+            estructural rápida (si ω(G) >= 3, el cuello es automáticamente 3).
+
+    Returns:
+        int or None: La longitud del ciclo más corto (entero >= 3). 
+            Retorna None si la gráfica es acíclica (un bosque) o si se vacía 
+            tras la limpieza de grados.
+    """
     #Detección de Triangulos
     if clique >= 3:
         return 3
@@ -269,6 +287,24 @@ def cuello(graph: nx.Graph, clique: int):
 #PARAMETROS
 #######################
 def pyrameters(G: nx.Graph):
+    """Función unificada para extraer los tres parámetros de 
+    una gráfica: el Número de Clan, el Número Cromático y el Cuello (Girth).
+
+    Coordina el flujo de datos optimizando el rendimiento global mediante el 
+    entrelazamiento de cotas matemáticas. El número de clan (ω) hallado en el primer 
+    módulo se hereda como cota inferior estricta para acelerar la poda en el coloreado 
+    exacto (χ), y como atajo estructural para resolver instantáneamente el cuello.
+
+    Args:
+        G (networkx.Graph): Gráfica de NetworkX que se desea analizar de manera integral.
+
+    Returns:
+        dict: Un diccionario con los parámetros calculados bajo las llaves:
+            - "maximum_clique" (set): Vértices que conforman el clan máximo.
+            - "clique_number" (int): Tamaño del clan máximo (ω(G)).
+            - "girth" (int or None): Longitud del ciclo mínimo.
+            - "chromatic_number" (int): Número cromático exacto (χ(G)).
+    """
     clique, omega = maxclique(G)
     chi = numero_cromatico(G, lower_bound = omega)
     g = cuello(G, omega)
