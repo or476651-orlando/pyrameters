@@ -1,6 +1,6 @@
 import networkx as nx
 
-def maxclique(G: nx.Graph):
+def calcular_clique(G: nx.Graph):
     opt_clique: set = set()
     opt_size: int = 0
     
@@ -8,12 +8,13 @@ def maxclique(G: nx.Graph):
     # Grabamos el conjunto total de vértices V
     V = set(G.nodes())
 
-    N = {v: set{G.neighbors(v) for v in v}
+    N = {v: set(G.neighbors(v)) for v in v}
 
     def greedy_color(G_sub: nx.Graph):
         color_class: list[set[int]] = []
         k = 0
-        for i in G_sub.nodes():
+        nodes = sorted(G_sub.nodes(), key = lambda v: G_sub.degree(v), reverse = True)
+        for i in nodes:
             h = 0
             while h < k and (N[i] & color_class[h]):
                 h += 1
@@ -64,4 +65,4 @@ def maxclique(G: nx.Graph):
             
     # main: OptSize <- 0, MAXCLIQUE2(0)
     _maxclique2(0, [], set())
-    return opt_clique, opt_size
+    return opt_size
