@@ -25,7 +25,7 @@ def greedy_color(G_sub: nx.Graph, N: dict):
     nodes = sorted(G_sub.nodes(), key = lambda v: G_sub.degree(v), reverse = True)
     for v in nodes:
         h = 0
-        while ( h < k and ((N[v] & color_classes[h])):
+        while ( h < k and (N[v] & color_classes[h])):
             h += 1
         if h == k:
             k += 1
