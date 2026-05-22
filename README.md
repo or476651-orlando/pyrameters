@@ -55,7 +55,7 @@ import networkx as nx
 from pyrameters import pyrameters
 ```
 
-Crear una gráfica:
+Crear una gráfica. Aquí se muestra un ejemplo:
 
 ```python
 G = nx.cycle_graph(5)
