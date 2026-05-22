@@ -12,7 +12,7 @@ def clean(graph: nx.Graph, min_degree: int = 2):
     changed = True
     while changed:
         changed = False
-        to_remove = [v in G.nodes() if G.degree(v) < min_degree]
+        to_remove = [v for v in G.nodes() if G.degree(v) < min_degree]
         if to_remove:
             changed = True
             G.remove_nodes_from(to_remove)
@@ -87,6 +87,7 @@ def calcular_numero_cromatico(G: nx.Graph) -> int:
     backtracking con ruptura de simetría y branch & bound.
     """
     n = G.number_of_nodes()
+    V = set(G.nodes())
     if n == 0:
         return 0
 
