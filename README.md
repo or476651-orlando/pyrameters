@@ -280,6 +280,9 @@ Para hacer testings:
 ```
 
 Para explorar la libreta de Jupyter:
+Al abrir Google Colab, selecciona la opción de GitHub, y luego en el cuadro de texto ingresa el link de nuestro repositorio. Debe aparecer un listado de opciones. Selecciona nuestro repositorio, 'pyrameters'. Después, selecciona la libreta "Ejemplos_pyrameters.ipynb"
+
+---
 
 # 📄 Licencia
 
