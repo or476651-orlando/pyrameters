@@ -44,7 +44,7 @@ Si deseas trabajar con esta librería desde una libreta de Jupyter:
 
 ```bash
 pip install git+https://github.com/or476651-orlando/pyrameters.git
-
+```
 ---
 
 # 📖 Uso básico
