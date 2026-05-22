@@ -1,5 +1,5 @@
 import networkx as nx
-from src.all import pyrameters
+from pyrameters.all import pyrameters
 
 #############################
 # AUXILIAR
