@@ -209,4 +209,4 @@ def pyrameters(G: nx.Graph):
     clique, omega = maxclique(G)
     chi = chromatic_number(G, lower_bound = omega)
     g = cuello(G, clique_number=omega)
-    return { "maximum_clique": clique, "clique_number": omega, "girth": g}
+    return { "maximum_clique": clique, "clique_number": omega, "girth": g, "chromatic_number": chi}
